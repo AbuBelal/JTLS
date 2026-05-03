@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>برنامج إدارة مراكز مساحات التعليم المؤقتة</title>
+    <base href="/" />
+    <link href="_framework/dotnet.48mrcqxskr.js" rel="preload" as="script" fetchpriority="high" crossorigin="anonymous" integrity="sha256-vBLED6EHlS+GwVq5OUAUs+5yj9NbTn4DGKeKyu9UC+U=" />
+    <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/app.css" />
+    <link rel="icon" type="image/png" href="favicon.png" />
+    <link href="TLSWeb.styles.css" rel="stylesheet" />
+    <link href="manifest.webmanifest" rel="manifest" />
+    <link rel="apple-touch-icon" sizes="512x512" href="icon-512.png" />
+    <link rel="apple-touch-icon" sizes="192x192" href="icon-192.png" />
+    <!--begin-->
+    <link rel="apple-touch-icon" sizes="76x76" href="./assets/img/apple-icon.png">
+    <link rel="icon" type="image/png" href="./assets/img/favicon.png">
+    <!--     Fonts and icons     -->
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
+
+    <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+
+    <!--end-->
+    <!--begin stitch template-->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&amp;family=Tajawal:wght@400;500;700;800&amp;display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "surface-variant": "#e0e3e5",
+                        "surface": "#f8f9fb",
+                        "primary": "#00658e",
+                        "on-secondary-fixed-variant": "#005313",
+                        "tertiary-fixed": "#ffdfa0",
+                        "secondary": "#006e1c",
+                        "on-surface": "#191c1e",
+                        "on-secondary-fixed": "#002204",
+                        "on-primary": "#ffffff",
+                        "primary-fixed-dim": "#83cfff",
+                        "error": "#ba1a1a",
+                        "secondary-fixed-dim": "#78dc77",
+                        "secondary-fixed": "#94f990",
+                        "surface-container-highest": "#e0e3e5",
+                        "outline": "#6e7881",
+                        "error-container": "#ffdad6",
+                        "on-tertiary": "#ffffff",
+                        "tertiary": "#795900",
+                        "surface-bright": "#f8f9fb",
+                        "on-primary-fixed": "#001e2e",
+                        "on-tertiary-fixed": "#261a00",
+                        "background": "#f8f9fb",
+                        "tertiary-fixed-dim": "#fbbc00",
+                        "surface-tint": "#00658e",
+                        "on-primary-container": "#003046",
+                        "surface-dim": "#d8dadc",
+                        "on-secondary": "#ffffff",
+                        "surface-container-high": "#e6e8ea",
+                        "surface-container": "#eceef0",
+                        "on-error": "#ffffff",
+                        "on-error-container": "#93000a",
+                        "inverse-surface": "#2d3133",
+                        "on-tertiary-container": "#3b2a00",
+                        "primary-fixed": "#c7e7ff",
+                        "on-background": "#191c1e",
+                        "primary-container": "#009edb",
+                        "inverse-on-surface": "#eff1f3",
+                        "on-primary-fixed-variant": "#004c6c",
+                        "outline-variant": "#bec8d1",
+                        "secondary-container": "#91f78e",
+                        "surface-container-lowest": "#ffffff",
+                        "on-surface-variant": "#3e4850",
+                        "tertiary-container": "#bc8c00",
+                        "on-secondary-container": "#00731e",
+                        "inverse-primary": "#83cfff",
+                        "surface-container-low": "#f2f4f6",
+                        "on-tertiary-fixed-variant": "#5c4300"
+                    },
+                    fontFamily: {
+                        "headline": ["Tajawal", "sans-serif"],
+                        "body": ["IBM Plex Sans Arabic", "sans-serif"],
+                        "label": ["IBM Plex Sans Arabic", "sans-serif"]
+                    },
+                    borderRadius: { "DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem" },
+                },
+            },
+        }
+    </script>
+    <style>
+        /* ===== Dua Container ===== */
+        .dua-wrapper {
+            position: fixed;
+            bottom: 0; /* الالتصاق بالأسفل */
+            left: 0;
+            right: 0; /* لضمان التمدد من اليمين لليسار */
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+            box-sizing: border-box;
+            opacity: 1;
+            transform: translateY(30px);
+            /*transition: opacity 1s ease, transform 1s ease;*/
+        }
+
+            .dua-wrapper.visible {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+        /* Category Label */
+        .category-label {
+            font-size: 0.8rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: rgba(180, 140, 30, 0.8);
+            margin-bottom: 30px;
+            font-weight: 500;
+        }
+
+        /* The Dua Text */
+        #Zeker {
+            font-family: 'Amiri', serif;
+            font-size: clamp(1.8rem, 5vw, 3rem);
+            line-height: 2;
+            text-align: center;
+            max-width: 800px;
+            color: #1a1a1a;
+            text-shadow: 0 0 40px rgba(212, 175, 55, 0.08);
+            margin-bottom: 40px;
+            padding: 0 20px;
+        }
+
+        /* Divider */
+        .divider {
+            width: 60px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #b4881e, transparent);
+            margin-bottom: 30px;
+        }
+
+        /* Transliteration */
+        .transliteration {
+            font-style: italic;
+            font-size: 1rem;
+            color: rgba(0, 0, 0, 0.5);
+            text-align: center;
+            max-width: 600px;
+            margin-bottom: 20px;
+            line-height: 1.8;
+            padding: 0 20px;
+        }
+
+        /* Translation */
+        .translation {
+            font-size: 1.05rem;
+            color: rgba(0, 0, 0, 0.7);
+            text-align: center;
+            max-width: 600px;
+            line-height: 1.9;
+            margin-bottom: 30px;
+            padding: 0 20px;
+        }
+
+        /* Source */
+        .source {
+            font-size: 0.8rem;
+            color: rgba(0, 0, 0, 0.4);
+            text-align: center;
+            margin-bottom: 8px;
+        }
+
+        /* Repeat badge */
+        .repeat {
+            font-size: 0.75rem;
+            color: rgba(180, 140, 30, 0.8);
+            background: rgba(212, 175, 55, 0.08);
+            padding: 4px 14px;
+            border-radius: 20px;
+            margin-bottom: 50px;
+        }
+
+        /* Refresh Button */
+        .refresh-btn {
+            background: transparent;
+            border: 1px solid rgba(180, 140, 30, 0.3);
+            color: #b4881e;
+            padding: 12px 32px;
+            border-radius: 50px;
+            font-family: 'Tajawal', sans-serif;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+            .refresh-btn:hover {
+                background: rgba(212, 175, 55, 0.08);
+                border-color: rgba(180, 140, 30, 0.6);
+                transform: translateY(-2px);
+                box-shadow: 0 10px 30px rgba(212, 175, 55, 0.1);
+            }
+
+            .refresh-btn:active {
+                transform: translateY(0);
+            }
+
+            .refresh-btn.spinning svg {
+                animation: spinIcon 0.8s linear infinite;
+            }
+
+        @keyframes spinIcon {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Subtle background glow */
+        .glow {
+            position: fixed;
+            width: 500px;
+            height: 500px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.04) 0%, transparent 70%);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+
+        /**/
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        body {
+            font-family: 'IBM Plex Sans Arabic', sans-serif;
+        }
+
+        .tonal-layering {
+            box-shadow: -4px 0 20px -10px rgba(0, 101, 142, 0.1);
+        }
+
+        /* Collapsible Menu Transitions */
+        .menu-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out, opacity 0.2s ease-out;
+            opacity: 0;
+        }
+
+        .menu-item.active .menu-content {
+            max-height: 200px;
+            opacity: 1;
+        }
+
+        .menu-item.active .chevron-icon {
+            transform: rotate(180deg);
+        }
+
+        .chevron-icon {
+            transition: transform 0.2s ease-in-out;
+        }
+    </style>
+    <!--end stitch template-->
+
+
+
+
+    <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
+    <link href="_content/MudBlazor/MudBlazor.min.css?v=1" rel="stylesheet" />
+    <script type="importmap">{
+  "imports": {
+    "./_framework/blazor.webassembly.js": "./_framework/blazor.webassembly.66stpp682q.js",
+    "./_framework/dotnet.js": "./_framework/dotnet.48mrcqxskr.js",
+    "./_framework/dotnet.native.js": "./_framework/dotnet.native.3qf6w265iu.js",
+    "./_framework/dotnet.runtime.js": "./_framework/dotnet.runtime.f4b1oiwlzh.js"
+  },
+  "scopes": {},
+  "integrity": {
+    "./_framework/blazor.webassembly.66stpp682q.js": "sha256-3lCWrko3zwspV40aQhs2S/IMkRSarnHRKIdkHhuXIBA=",
+    "./_framework/blazor.webassembly.js": "sha256-3lCWrko3zwspV40aQhs2S/IMkRSarnHRKIdkHhuXIBA=",
+    "./_framework/dotnet.48mrcqxskr.js": "sha256-vBLED6EHlS+GwVq5OUAUs+5yj9NbTn4DGKeKyu9UC+U=",
+    "./_framework/dotnet.js": "sha256-vBLED6EHlS+GwVq5OUAUs+5yj9NbTn4DGKeKyu9UC+U=",
+    "./_framework/dotnet.native.3qf6w265iu.js": "sha256-5WJWKyRAy1ynOGugXKh/YchOnzSV97RMlyJnLcgr7m8=",
+    "./_framework/dotnet.native.js": "sha256-5WJWKyRAy1ynOGugXKh/YchOnzSV97RMlyJnLcgr7m8=",
+    "./_framework/dotnet.runtime.f4b1oiwlzh.js": "sha256-j86bNQPKznxC4epcftZFbThfaMXvIRmSeHo8PdvTrdA=",
+    "./_framework/dotnet.runtime.js": "sha256-j86bNQPKznxC4epcftZFbThfaMXvIRmSeHo8PdvTrdA="
+  }
+}</script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+</head>
+
+<body dir="rtl">
+
+    <div id="app">
+        <div class="dua-wrapper" id="dua-wrapper">
+            <div class="category-label" id="category">—</div>
+
+            <div>
+                <label id="Zeker">—</label>
+            </div>
+
+            <div class="divider"></div>
+
+            <!--<div class="transliteration" id="transliteration">—</div>-->
+            <!--<div class="translation" id="translation">—</div>-->
+            <div class="source" id="source">—</div>
+            <div class="repeat" id="repeat">—</div>
+        </div>
+
+
+        <svg class="loading-progress">
+            <circle r="40%" cx="50%" cy="50%" />
+            <circle r="40%" cx="50%" cy="50%" />
+        </svg>
+        <div class="loading-progress-text"></div>
+    </div>
+
+    <div id="blazor-error-ui">
+        An unhandled error has occurred.
+        <a href="." class="reload">Reload</a>
+        <span class="dismiss">🗙</span>
+    </div>
+    <script src="_framework/blazor.webassembly.66stpp682q.js" autostart="false"></script>
+    <script>navigator.serviceWorker.register('service-worker.js', { updateViaCache: 'none' });</script>
+    <script src="_content/MudBlazor/MudBlazor.min.js?v=1"></script>
+    <script>
+        window.BlazorDownloadFile = (fileName, contentType, bytes) => {
+            const blob = new Blob([new Uint8Array(bytes)], { type: contentType });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = fileName;
+            document.body.appendChild(a);
+            a.click();
+            setTimeout(() => {
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            }, 100);
+        };
+    </script>
+
+    <script>
+        const API_URL = 'https://ummahapi.com/api/duas/random';
+        const wrapper = document.getElementById('dua-wrapper');
+
+        async function fetchDua() {
+            var readingTime = 2000; // وقت افتراضي للقراءة (10 ثواني)
+            try {
+                const response = await fetch(API_URL);
+                if (!response.ok) throw new Error('Network error');
+
+                const result = await response.json();
+                if (!result.success || !result.data) throw new Error('Invalid data');
+
+                const data = result.data;
+                const catInfo = data.category_info || {};
+
+                document.getElementById('category').textContent = catInfo.name || data.category || '';
+                document.getElementById('Zeker').textContent = data.arabic || '';
+                document.getElementById('source').textContent = data.source ? '📖 ' + data.source : '';
+                document.getElementById('repeat').textContent = data.repeat ? 'التكرار: ' + data.repeat + ' مرات' : '';
+                wrapper.classList.add('visible');
+
+                const wordCount = data.arabic.split(/\s+/).filter(w => w).length;
+                readingTime = Math.max(2000, Math.min(15000, wordCount * 200));
+
+            } catch (err) {
+                console.error(err);
+                document.getElementById('Zeker').textContent = '❌ حدث خطأ في تحميل الدعاء';
+                document.getElementById('source').textContent = '';
+                document.getElementById('repeat').textContent = '';
+                document.getElementById('category').textContent = 'خطأ';
+                wrapper.classList.add('visible');
+            }
+            finally {
+                // تحميل Blazor بعد عرض الذكر (نجاح أو فشل)
+                //loadBlazor();
+                
+
+                setTimeout(() => {
+                    Blazor.start();
+                }, 2000);
+            }
+        }
+
+        // تأخير تحميل Blazor حتى يتم جلب الدعاء وعرضه
+        //function loadBlazor() {
+        //    const script = document.createElement('script');
+        //    script.src = '_framework/blazor.webassembly#[.{fingerprint}].js';
+        //    script.onload = () => {
+        //        // تحميل MudBlazor وتسجيل service worker بعد Blazor
+        //        const mudScript = document.createElement('script');
+        //        mudScript.src = '_content/MudBlazor/MudBlazor.min.js?v=1';
+        //        document.body.appendChild(mudScript);
+
+        //        navigator.serviceWorker.register('service-worker.js', { updateViaCache: 'none' });
+        //    };
+        //    document.body.appendChild(script);
+        //}
+
+        fetchDua();
+    </script>
+</body>
+
+</html>
